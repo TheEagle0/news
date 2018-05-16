@@ -1,14 +1,14 @@
 package com.example.theeagle.news.models;
 
-public class Model {
-    private String title, url, section;
-    private long time;
+public class NewsFeed {
 
-    public Model(String title, String url, String section , long time) {
+    private String title, url, section, time;
+
+    public NewsFeed(String title, String url, String section, String time) {
         this.title = title;
         this.url = url;
         this.section = section;
-        this.time=time;
+        this.time = time;
     }
 
     public String getTitle() {
@@ -33,5 +33,13 @@ public class Model {
 
     public void setSection(String section) {
         this.section = section;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

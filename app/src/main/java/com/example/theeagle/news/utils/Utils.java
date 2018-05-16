@@ -1,9 +1,10 @@
 package com.example.theeagle.news.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.theeagle.news.constants.Constants;
-import com.example.theeagle.news.models.Model;
+import com.example.theeagle.news.models.NewsFeed;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,14 +20,14 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class Utils {
+public final class Utils {
 
-    public static ArrayList<Model> fetchData(String requestUrl) {
+    public static ArrayList<NewsFeed> fetchData(String requestUrl) {
+        Log.d("Utils", "fetchData");
         URL url = createUrl(requestUrl);
         String json;
         json = makeHttpRequest(url);
-
-        return getDataFromjson(json);
+        return getDataFromJson(json);
     }
 
     private static URL createUrl(String stringUrl) {
@@ -92,8 +93,8 @@ public class Utils {
         return finalOutPut.toString();
     }
 
-    private static ArrayList<Model> getDataFromjson(String json) {
-        ArrayList<Model> news = new ArrayList<>();
+    private static ArrayList<NewsFeed> getDataFromJson(String json) {
+        ArrayList<NewsFeed> news = new ArrayList<>();
         if (TextUtils.isEmpty(json)) {
             return null;
         }
@@ -105,16 +106,15 @@ public class Utils {
                 JSONObject getArticle = newsObjects.getJSONObject(i);
                 String title = getArticle.getString("webTitle");
                 String sectionName = getArticle.getString("sectionName");
-                long time = getArticle.getLong("webPublicationDate");
+                String time = getArticle.getString("webPublicationDate");
                 String url = getArticle.getString("webUrl");
 
-                news.add(new Model(title, url, sectionName, time));
+                news.add(new NewsFeed(title, url, sectionName, time));
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         return news;
     }

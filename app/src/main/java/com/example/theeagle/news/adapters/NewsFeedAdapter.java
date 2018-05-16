@@ -9,15 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.theeagle.news.R;
-import com.example.theeagle.news.models.Model;
+import com.example.theeagle.news.models.NewsFeed;
 
 import java.util.ArrayList;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-    private ArrayList<Model> newsFeed;
-    private Context context;
+public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    public Adapter(ArrayList<Model> newsFeed, Context context) {
+    private final ArrayList<NewsFeed> newsFeed;
+    private final Context context;
+
+    public NewsFeedAdapter(ArrayList<NewsFeed> newsFeed, Context context) {
         this.newsFeed = newsFeed;
         this.context = context;
     }
@@ -31,10 +32,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.model=newsFeed.get(position);
-        holder.title.setText(holder.model.getTitle());
-        holder.section.setText(holder.model.getSection());
+        holder.newsFeed = newsFeed.get(position);
+        holder.title.setText(holder.newsFeed.getTitle());
+        holder.section.setText(holder.newsFeed.getSection());
+    }
 
+    public void updateAdapter(final ArrayList<NewsFeed> newsFeed) {
+        if (this.newsFeed != null && !this.newsFeed.isEmpty()) this.newsFeed.clear();
+        if (this.newsFeed != null) this.newsFeed.addAll(newsFeed);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,7 +50,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, section, date, time;
-        private Model model;
+        private NewsFeed newsFeed;
 
         ViewHolder(View itemView) {
             super(itemView);
