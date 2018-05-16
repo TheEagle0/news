@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

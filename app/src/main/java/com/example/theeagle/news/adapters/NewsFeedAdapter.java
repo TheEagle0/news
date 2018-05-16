@@ -1,6 +1,8 @@
 package com.example.theeagle.news.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,19 +53,19 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, section, date, time;
         private NewsFeed newsFeed;
-
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView ) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             section = itemView.findViewById(R.id.section);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
             itemView.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
-
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsFeed.getUrl())));
         }
     }
 }
