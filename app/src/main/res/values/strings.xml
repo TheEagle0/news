@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">News</string>
+    <string name="check_the_connection">Please Check the connection</string>
 </resources>

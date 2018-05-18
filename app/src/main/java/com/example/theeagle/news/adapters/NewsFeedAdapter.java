@@ -13,12 +13,17 @@ import android.widget.TextView;
 import com.example.theeagle.news.R;
 import com.example.theeagle.news.models.NewsFeed;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Locale;
 
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
     private final ArrayList<NewsFeed> newsFeed;
     private final Context context;
+
 
     public NewsFeedAdapter(ArrayList<NewsFeed> newsFeed, Context context) {
         this.newsFeed = newsFeed;
@@ -37,6 +42,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.newsFeed = newsFeed.get(position);
         holder.title.setText(holder.newsFeed.getTitle());
         holder.section.setText(holder.newsFeed.getSection());
+        holder.date.setText(holder.newsFeed.getTime());
+
     }
 
     public void updateAdapter(final ArrayList<NewsFeed> newsFeed) {
@@ -53,12 +60,12 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, section, date, time;
         private NewsFeed newsFeed;
-        ViewHolder(View itemView ) {
+
+        ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             section = itemView.findViewById(R.id.section);
             date = itemView.findViewById(R.id.date);
-            time = itemView.findViewById(R.id.time);
             itemView.setOnClickListener(this);
 
         }
@@ -68,4 +75,5 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsFeed.getUrl())));
         }
     }
+
 }

@@ -13,12 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.theeagle.news.R;
 import com.example.theeagle.news.adapters.NewsFeedAdapter;
 import com.example.theeagle.news.constants.Constants;
 import com.example.theeagle.news.models.NewsFeed;
-import com.example.theeagle.news.utils.Utils;
+import com.example.theeagle.news.utils.CheckConnectivity;
+import com.example.theeagle.news.utils.NetworkingHandler;
 
 import java.util.ArrayList;
 
@@ -26,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<ArrayList<NewsFeed>> {
 
     private static final String TAG = "MainActivity";
-    private static final int LOADER_ID = 0;
-
+    private TextView emptyState;
     private final ArrayList<NewsFeed> newsFeed = new ArrayList<>();
 
     private ProgressBar progressBar;
@@ -39,11 +40,23 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        getNews();
+        fillUi();
+
     }
 
+    private void fillUi() {
+        if (CheckConnectivity.checkNetwork(getApplication())) {
+            getNews();
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            emptyState.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
     private void getNews() {
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+        getSupportLoaderManager().initLoader(Constants.LOADER_ID, null, this).forceLoad();
     }
 
     private void initView() {
@@ -52,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(newsFeed, this);
         recyclerView.setAdapter(newsFeedAdapter);
+        emptyState = findViewById(R.id.empty_state_text);
     }
 
     @NonNull
@@ -101,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public ArrayList<NewsFeed> loadInBackground() {
             Log.d(TAG, "loadInBackground");
-            return Utils.fetchData(Constants.url);
+            return NetworkingHandler.fetchData(Constants.url);
         }
     }
 }

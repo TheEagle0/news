@@ -20,10 +20,10 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public final class Utils {
+public final class NetworkingHandler {
 
     public static ArrayList<NewsFeed> fetchData(String requestUrl) {
-        Log.d("Utils", "fetchData");
+        Log.d("NetworkingHandler", "fetchData");
         URL url = createUrl(requestUrl);
         String json;
         json = makeHttpRequest(url);
