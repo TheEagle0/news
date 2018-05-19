@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.example.theeagle.news.R;
 import com.example.theeagle.news.adapters.NewsFeedAdapter;
 import com.example.theeagle.news.constants.Constants;
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG = "MainActivity";
     private TextView emptyState;
     private final ArrayList<NewsFeed> newsFeed = new ArrayList<>();
-
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
 
@@ -85,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(@NonNull Loader<ArrayList<NewsFeed>> loader) {
-
     }
+
 
     private static class GetNewsTask extends AsyncTaskLoader<ArrayList<NewsFeed>> {
 

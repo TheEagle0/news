@@ -107,9 +107,17 @@ public final class NetworkingHandler {
                 String title = getArticle.getString("webTitle");
                 String sectionName = getArticle.getString("sectionName");
                 String time = getArticle.getString("webPublicationDate");
-                String url = getArticle.getString("webUrl");
 
-                news.add(new NewsFeed(title, url, sectionName, time));
+                String url = getArticle.getString("webUrl");
+                JSONArray getTags=getArticle.getJSONArray("tags");
+                for (int j = 0; j < getTags.length(); j++) {
+                    JSONObject getAuthor=getTags.getJSONObject(j);
+                    String author=getAuthor.getString("webTitle");
+                    news.add(new NewsFeed(title, url, sectionName, time,author));
+                }
+
+
+
             }
 
         } catch (JSONException e) {

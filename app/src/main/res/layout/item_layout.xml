@@ -21,12 +21,22 @@
             android:textSize="@dimen/dim_20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginBottom="@dimen/dim_8dp"
+            android:layout_marginStart="@dimen/dim_8dp"
+            android:layout_marginEnd="@dimen/dim_8dp"
+            android:textSize="@dimen/dim_20sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
+            android:layout_below="@id/author"
             android:layout_marginBottom="@dimen/dim_8dp"
             android:layout_marginStart="@dimen/dim_8dp"
             android:layout_marginEnd="@dimen/dim_8dp"

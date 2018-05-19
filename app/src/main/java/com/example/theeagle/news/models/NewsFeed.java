@@ -2,13 +2,21 @@ package com.example.theeagle.news.models;
 
 public class NewsFeed {
 
-    private String title, url, section, time;
+    private String title;
+    private String url;
+    private String section;
+    private String time;
 
-    public NewsFeed(String title, String url, String section, String time) {
+
+
+    private String authorName;
+
+    public NewsFeed(String title, String url, String section, String time , String  authorName) {
         this.title = title;
         this.url = url;
         this.section = section;
         this.time = time;
+        this.authorName=authorName;
     }
 
     public String getTitle() {
@@ -41,5 +49,12 @@ public class NewsFeed {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }
