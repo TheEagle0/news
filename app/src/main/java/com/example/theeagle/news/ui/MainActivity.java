@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public ArrayList<NewsFeed> loadInBackground() {
             Log.d(TAG, "loadInBackground");
-            return NetworkingHandler.fetchData(Constants.url);
+            return NetworkingHandler.fetchData(Constants.URL);
         }
     }
 }

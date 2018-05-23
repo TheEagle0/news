@@ -51,8 +51,8 @@ public final class NetworkingHandler {
         }
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(Constants.readTimeOut);
-            urlConnection.setConnectTimeout(Constants.connectTimeOut);
+            urlConnection.setReadTimeout(Constants.READ_TIME_OUT);
+            urlConnection.setConnectTimeout(Constants.CONNECT_TIME_OUT);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
             if (urlConnection.getResponseCode() == 200) {
