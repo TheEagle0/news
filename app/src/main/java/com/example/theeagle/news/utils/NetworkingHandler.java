@@ -1,5 +1,6 @@
 package com.example.theeagle.news.utils;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public final class NetworkingHandler {
 
+    @Nullable
     public static ArrayList<NewsFeed> fetchData(String requestUrl) {
         Log.d("NetworkingHandler", "fetchData");
         URL url = createUrl(requestUrl);
@@ -93,37 +95,32 @@ public final class NetworkingHandler {
         return finalOutPut.toString();
     }
 
-    private static ArrayList<NewsFeed> getDataFromJson(String json) {
+    @Nullable
+    private static ArrayList<NewsFeed> getDataFromJson(@Nullable final String json) {
         String title, sectionName, time, author = null;
-        ArrayList<NewsFeed> news = new ArrayList<>();
-        if (TextUtils.isEmpty(json)) {
-            return null;
-        }
+        final ArrayList<NewsFeed> news = new ArrayList<>();
+        if (TextUtils.isEmpty(json)) return null;
         try {
-            JSONObject baseObject = new JSONObject(json);
-            JSONObject response = baseObject.getJSONObject("response");
-            JSONArray newsObjects = response.getJSONArray("results");
+            final JSONObject baseObject = new JSONObject(json);
+            final JSONObject response = baseObject.getJSONObject("response");
+            final JSONArray newsObjects = response.getJSONArray("results");
             for (int i = 0; i < newsObjects.length(); i++) {
-                JSONObject getArticle = newsObjects.getJSONObject(i);
+                final JSONObject getArticle = newsObjects.getJSONObject(i);
                 title = getArticle.getString("webTitle");
                 sectionName = getArticle.getString("sectionName");
                 time = getArticle.getString("webPublicationDate");
 
-                String url = getArticle.getString("webUrl");
-                JSONArray getTags = getArticle.getJSONArray("tags");
+                final String url = getArticle.getString("webUrl");
+                final JSONArray getTags = getArticle.getJSONArray("tags");
                 for (int j = 0; j < getTags.length(); j++) {
-                    JSONObject getAuthor = getTags.getJSONObject(j);
+                    final JSONObject getAuthor = getTags.getJSONObject(j);
                     author = getAuthor.getString("webTitle");
-
                 }
                 news.add(new NewsFeed(title, url, sectionName, time, author));
-
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return news;
     }
 }
