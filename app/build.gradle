@@ -16,6 +16,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField "String", "API_KEY", "\"17afcfca-d14d-4673-9df5-44e22e7d91df\""
+        }
     }
 }
 
@@ -29,7 +32,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation"com.android.support:preference-v7:27.1.1"
+    implementation "com.android.support:preference-v7:27.1.1"
 }
 repositories {
     mavenCentral()

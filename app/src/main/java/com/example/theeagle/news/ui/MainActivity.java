@@ -3,7 +3,6 @@ package com.example.theeagle.news.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -21,11 +20,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.theeagle.news.BuildConfig;
 import com.example.theeagle.news.R;
 import com.example.theeagle.news.adapters.NewsFeedAdapter;
 import com.example.theeagle.news.constants.Constants;
 import com.example.theeagle.news.models.NewsFeed;
-import com.example.theeagle.news.utils.CheckConnectivity;
+import com.example.theeagle.news.utils.NetworkUtils;
 import com.example.theeagle.news.utils.NetworkingHandler;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        fillUi();
+        fillUI();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void fillUi() {
-        if (CheckConnectivity.checkNetwork(getApplication())) {
+    private void fillUI() {
+        if (NetworkUtils.isConnected(getApplication())) {
             getNews();
             recyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         getSupportLoaderManager().restartLoader(Constants.LOADER_ID, null, this);
-        if (CheckConnectivity.checkNetwork(getApplication()))
+        if (NetworkUtils.isConnected(getApplication()))
         {emptyState.setVisibility(View.INVISIBLE);
-            fillUi();}
+            fillUI();}
         else {
             progressBar.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements
                 builder.scheme("https")
                         .authority("content.guardianapis.com")
                         .appendPath(query)
-                        .appendQueryParameter("api-key", "17afcfca-d14d-4673-9df5-44e22e7d91df")
+                        .appendQueryParameter("api-key", BuildConfig.API_KEY)
                         .appendQueryParameter("show-tags", "contributor");
                 finalUrl = builder.build().toString();
             } else {

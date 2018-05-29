@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.theeagle.news.R;
 
 public class SettingsActivity extends AppCompatActivity {
+
     private PreferenceScreen preferenceScreen = new PreferenceScreen();
 
     @Override

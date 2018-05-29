@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.theeagle.news.BuildConfig;
 import com.example.theeagle.news.constants.Constants;
 import com.example.theeagle.news.models.NewsFeed;
 
@@ -78,7 +79,7 @@ public final class NetworkingHandler {
     }
 
     private static String readFromStream(InputStream inputStream) {
-        StringBuilder finalOutPut = new StringBuilder();
+        final StringBuilder finalOutPut = new StringBuilder();
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
@@ -118,12 +119,12 @@ public final class NetworkingHandler {
                         author = getAuthor.getString("webTitle");
                     }
 
-                }else author="Not Avail";
+                } else author = "Not Avail";
 
                 news.add(new NewsFeed(title, url, sectionName, time, author));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            if (BuildConfig.DEBUG) e.printStackTrace();
         }
         return news;
     }

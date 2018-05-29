@@ -21,8 +21,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     private final ArrayList<NewsFeed> newsFeed;
     private final Context context;
 
-
-    public NewsFeedAdapter(ArrayList<NewsFeed> newsFeed, Context context) {
+    public NewsFeedAdapter(ArrayList<NewsFeed> newsFeed, @NonNull Context context) {
         this.newsFeed = newsFeed;
         this.context = context;
     }
@@ -56,7 +55,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title, section, date, author;
+        final TextView title, section, date, author;
         private NewsFeed newsFeed;
 
         ViewHolder(View itemView) {
