@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements
     private final ArrayList<NewsFeed> newsFeed = new ArrayList<>();
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private NewsFeedAdapter newsFeedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
         progressBar = findViewById(R.id.progress);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        newsFeedAdapter = new NewsFeedAdapter(newsFeed, this);
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(newsFeed, this);
         recyclerView.setAdapter(newsFeedAdapter);
         emptyState = findViewById(R.id.empty_state_text);
     }
