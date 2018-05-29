@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="items">
+        <item>All</item>
         <item>Australia News</item>
         <item>Life and Style</item>
         <item>Environment</item>
@@ -8,10 +9,11 @@
         <item>Uk-News</item>
     </string-array>
     <string-array name="items_values">
-        <item>https://www.theguardian.com/australia-news</item>
-        <item>http://content.guardianapis.com/lifeandstyle</item>
-        <item>https://www.theguardian.com/environment</item>
-        <item>https://content.guardianapis.com/sport</item>
-        <item>https://content.guardianapis.com/uk-news</item>
+        <item>search</item>
+        <item>australia-news</item>
+        <item>lifeandstyle</item>
+        <item>environment</item>
+        <item>sport</item>
+        <item>uk-news</item>
     </string-array>
 </resources>

@@ -2,6 +2,9 @@ package com.example.theeagle.news.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -11,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,13 +30,24 @@ import com.example.theeagle.news.utils.NetworkingHandler;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<ArrayList<NewsFeed>> {
+        LoaderManager.LoaderCallbacks<ArrayList<NewsFeed>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String TAG = "MainActivity";
     private TextView emptyState;
     private final ArrayList<NewsFeed> newsFeed = new ArrayList<>();
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+    private NewsFeedAdapter newsFeedAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initView();
+        fillUi();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,14 +65,6 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        fillUi();
-
-    }
 
     private void fillUi() {
         if (CheckConnectivity.checkNetwork(getApplication())) {
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
         progressBar = findViewById(R.id.progress);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(newsFeed, this);
+        newsFeedAdapter = new NewsFeedAdapter(newsFeed, this);
         recyclerView.setAdapter(newsFeedAdapter);
         emptyState = findViewById(R.id.empty_state_text);
     }
@@ -102,10 +107,19 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(@NonNull Loader<ArrayList<NewsFeed>> loader) {
+
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        getSupportLoaderManager().restartLoader(Constants.LOADER_ID, null, this);
+        fillUi();
     }
 
 
     private static class GetNewsTask extends AsyncTaskLoader<ArrayList<NewsFeed>> {
+        private String finalUrl;
 
         @Nullable
         private ArrayList<NewsFeed> data;
@@ -131,8 +145,25 @@ public class MainActivity extends AppCompatActivity implements
         @Nullable
         @Override
         public ArrayList<NewsFeed> loadInBackground() {
-            Log.d(TAG, "loadInBackground");
-            return NetworkingHandler.fetchData(Constants.URL);
+            getUrl();
+            return NetworkingHandler.fetchData(finalUrl);
         }
+
+        private void getUrl() {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String query = sharedPreferences.getString("News", Constants.URL);
+            if (sharedPreferences.contains("News")) {
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("https")
+                        .authority("content.guardianapis.com")
+                        .appendPath(query)
+                        .appendQueryParameter("api-key", "17afcfca-d14d-4673-9df5-44e22e7d91df")
+                        .appendQueryParameter("show-tags", "contributor");
+                finalUrl = builder.build().toString();
+            } else {
+                finalUrl = Constants.URL;
+            }
+        }
+
     }
 }

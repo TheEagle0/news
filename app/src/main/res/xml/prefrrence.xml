@@ -6,6 +6,7 @@
         android:entries="@array/items"
         android:entryValues="@array/items_values"
         android:key="@string/app_name"
-        android:title="@string/category"/>
+        android:title="@string/category"
+        android:defaultValue="search"/>
 </PreferenceScreen>
 
