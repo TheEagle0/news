@@ -97,7 +97,8 @@ public final class NetworkingHandler {
 
     @Nullable
     private static ArrayList<NewsFeed> getDataFromJson(@Nullable final String json) {
-        String title, sectionName, time, author = null;
+        String title, sectionName, time;
+        String author = "Not";
         final ArrayList<NewsFeed> news = new ArrayList<>();
         if (TextUtils.isEmpty(json)) return null;
         try {
@@ -109,13 +110,16 @@ public final class NetworkingHandler {
                 title = getArticle.getString("webTitle");
                 sectionName = getArticle.getString("sectionName");
                 time = getArticle.getString("webPublicationDate");
-
                 final String url = getArticle.getString("webUrl");
                 final JSONArray getTags = getArticle.getJSONArray("tags");
-                for (int j = 0; j < getTags.length(); j++) {
-                    final JSONObject getAuthor = getTags.getJSONObject(j);
-                    author = getAuthor.getString("webTitle");
-                }
+                if (getTags.length() > 0) {
+                    for (int j = 0; j < getTags.length(); j++) {
+                        final JSONObject getAuthor = getTags.getJSONObject(j);
+                        author = getAuthor.getString("webTitle");
+                    }
+
+                }else author="Not Avail";
+
                 news.add(new NewsFeed(title, url, sectionName, time, author));
             }
         } catch (JSONException e) {

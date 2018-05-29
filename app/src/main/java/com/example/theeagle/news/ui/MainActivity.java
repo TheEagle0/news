@@ -3,6 +3,7 @@ package com.example.theeagle.news.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -113,7 +114,14 @@ public class MainActivity extends AppCompatActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         getSupportLoaderManager().restartLoader(Constants.LOADER_ID, null, this);
-        fillUi();
+        if (CheckConnectivity.checkNetwork(getApplication()))
+        {emptyState.setVisibility(View.INVISIBLE);
+            fillUi();}
+        else {
+            progressBar.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+            emptyState.setVisibility(View.VISIBLE);
+        }
     }
 
 
